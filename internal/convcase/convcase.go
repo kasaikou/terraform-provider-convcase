@@ -74,35 +74,39 @@ func nop(words []string) []string {
 }
 
 func lower(words []string) []string {
+	result := make([]string, len(words))
 	for i := range words {
-		words[i] = lowerCase.String(words[i])
+		result[i] = lowerCase.String(words[i])
 	}
-	return words
+	return result
 }
 
 func upper(words []string) []string {
+	result := make([]string, len(words))
 	for i := range words {
-		words[i] = upperCase.String(words[i])
+		result[i] = upperCase.String(words[i])
 	}
-	return words
+	return result
 }
 
 func title(words []string) []string {
+	result := make([]string, len(words))
 	for i := range words {
-		words[i] = titleCase.String(words[i])
+		result[i] = titleCase.String(words[i])
 	}
-	return words
+	return result
 }
 
 func camel(words []string) []string {
+	result := make([]string, len(words))
 	for i := range words {
 		if i == 0 {
-			words[i] = lowerCase.String(words[i])
+			result[i] = lowerCase.String(words[i])
 		} else {
-			words[i] = titleCase.String(words[i])
+			result[i] = titleCase.String(words[i])
 		}
 	}
-	return words
+	return result
 }
 
 func joinFactory(sep string) func([]string) string {
