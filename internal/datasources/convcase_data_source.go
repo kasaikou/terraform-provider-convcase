@@ -78,7 +78,7 @@ func (c *convcaseDataSource) Read(ctx context.Context, req datasource.ReadReques
 		return
 	}
 
-	words, err := convcase.SplitWords(model.Input.String())
+	words, err := convcase.SplitWords(model.Input.ValueString())
 	if err != nil {
 		resp.Diagnostics.AddError("Failed to split words", err.Error())
 		return
