@@ -56,8 +56,9 @@ func (c *convcaseModel) WithResult(
 	train types.String,
 	path types.String,
 	dot types.String,
-) {
-	(*c) = convcaseModel{
+) *convcaseModel {
+	return &convcaseModel{
+		Input:  c.Input,
 		Camel:  camel,
 		Pascal: pascal,
 		Snake:  snake,
@@ -71,7 +72,7 @@ func (c *convcaseModel) WithResult(
 
 func (c *convcaseDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 
-	var model convcaseModel
+	model := &convcaseModel{}
 	diags := req.Config.Get(ctx, &model)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
@@ -84,7 +85,7 @@ func (c *convcaseDataSource) Read(ctx context.Context, req datasource.ReadReques
 		return
 	}
 
-	model.WithResult(
+	model = model.WithResult(
 		types.StringValue(convcase.CamelCase.Convert(words)),
 		types.StringValue(convcase.PascalCase.Convert(words)),
 		types.StringValue(convcase.SnakeCase.Convert(words)),
