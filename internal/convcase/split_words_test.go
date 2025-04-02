@@ -51,6 +51,11 @@ func TestSplitWords(t *testing.T) {
 			args:      args{text: "abc def xyz"},
 			wantWords: []string{"abc", "def", "xyz"},
 		},
+		{
+			name:      "camel case",
+			args:      args{"abcDEFXyz"},
+			wantWords: []string{"abc", "DEF", "Xyz"},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

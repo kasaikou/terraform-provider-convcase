@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"regexp"
 	"strings"
+
+	"github.com/samber/lo"
 )
 
 var (
@@ -13,6 +15,7 @@ var (
 	pathRegExp  = regexp.MustCompile(fmt.Sprintf(`^(%s)(/(%s))*$`, wordRegExp.String(), wordRegExp.String()))
 	dotRegExp   = regexp.MustCompile(fmt.Sprintf(`^(%s)(.(%s))*$`, wordRegExp.String(), wordRegExp.String()))
 	textRegExp  = regexp.MustCompile(fmt.Sprintf(`^(%s)( (%s))*$`, wordRegExp.String(), wordRegExp.String()))
+	camelRegExp = regexp.MustCompile(fmt.Sprintf(`^(%s)+$`, wordRegExp.String()))
 )
 
 func SplitWords(text string) (words []string, err error) {
@@ -42,5 +45,10 @@ func SplitWords(text string) (words []string, err error) {
 		return words, nil
 	}
 
-	return nil, fmt.Errorf("'%s' unknown style, supports '-', '_', '/', '.' splited words", text)
+	if camelRegExp.MatchString(text) {
+		words = lo.Words(text)
+		return words, nil
+	}
+
+	return nil, fmt.Errorf("'%s' unknown style, supports text, kebab, snake, path, dot, camel styled words", text)
 }
